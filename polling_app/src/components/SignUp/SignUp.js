@@ -11,17 +11,23 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import axios from 'axios';
+import { useState } from 'react';
 
 const defaultTheme = createTheme();
 
+
+
 export default function SignUp() {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [repeatPassword, setRepeatPassword] = useState('');
+
+
   const handleSubmit = (event) => {
     event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    });
+    console.log(`email: ${email}\npassword: ${password}\nrepeatPassword: ${repeatPassword}`);
+    
   };
 
   return (
@@ -44,27 +50,6 @@ export default function SignUp() {
           </Typography>
           <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
             <Grid container spacing={2}>
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  autoComplete="given-name"
-                  name="firstName"
-                  required
-                  fullWidth
-                  id="firstName"
-                  label="First Name"
-                  autoFocus
-                />
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  required
-                  fullWidth
-                  id="lastName"
-                  label="Last Name"
-                  name="lastName"
-                  autoComplete="family-name"
-                />
-              </Grid>
               <Grid item xs={12}>
                 <TextField
                   required
@@ -73,6 +58,7 @@ export default function SignUp() {
                   label="Email Address"
                   name="email"
                   autoComplete="email"
+                  onChange={(event) => setEmail(event.target.value)}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -84,12 +70,19 @@ export default function SignUp() {
                   type="password"
                   id="password"
                   autoComplete="new-password"
+                  onChange={(event) => setPassword(event.target.value)}
                 />
               </Grid>
               <Grid item xs={12}>
-                <FormControlLabel
-                  control={<Checkbox value="allowExtraEmails" color="primary" />}
-                  label="I want to receive inspiration, marketing promotions and updates via email."
+                <TextField
+                  required
+                  fullWidth
+                  name="repeat_password"
+                  label="Repeat Password"
+                  type="password"
+                  id="repeat_password"
+                  autoComplete="repaet-password"
+                  onChange={(event) => setRepeatPassword(event.target.value)}
                 />
               </Grid>
             </Grid>
