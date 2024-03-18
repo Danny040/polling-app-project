@@ -11,17 +11,29 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import axios from 'axios';
+import { useState } from 'react';
 
 const defaultTheme = createTheme();
 
 export default function LogIn() {
-  const handleSubmit = (event) => {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    });
+    const body = {
+      email: email, 
+      password: password
+    }
+    try {
+      const response = await axios.post('http://localhost:4000/users', body);
+      const responseData = response.data;
+      console.log(responseData); 
+    } catch (error) {
+      console.log(error)
+    }
+    // console.log(JSON.stringify(body));
   };
 
   return (
@@ -52,6 +64,7 @@ export default function LogIn() {
               name="email"
               autoComplete="email"
               autoFocus
+              onChange={(event) => {setEmail(event.target.value)}}
             />
             <TextField
               margin="normal"
@@ -62,6 +75,7 @@ export default function LogIn() {
               type="password"
               id="password"
               autoComplete="current-password"
+              onChange={(event) => {setPassword(event.target.value)}}
             />
             <FormControlLabel
               control={<Checkbox value="remember" color="primary" />}
