@@ -5,8 +5,8 @@
     "mongodb": "^6.3.0"
   },
   "scripts": {
-    "server": "node index.js",
-    "dev": "nodemon index.js"
+    "server": "node app.js",
+    "dev": "nodemon app.js"
   },
   "devDependencies": {
     "nodemon": "^3.1.0"
