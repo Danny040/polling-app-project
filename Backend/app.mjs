@@ -1,7 +1,9 @@
-const express = require("express");
+import express from "express";
 const app = express();
-const cors = require("cors");
+import cors from "cors";
 const port = 4000; 
+
+import authRouts from './auth.mjs';
 
 let corsOptions = {
   origin: '*',
@@ -10,9 +12,11 @@ let corsOptions = {
 
 app.use(express.json());
 app.use(cors(corsOptions));
+app.use('/auth', authRouts);
 
-const { MongoClient, ServerApiVersion } = require("mongodb");
-const ObjectID = require("mongodb").ObjectId;
+import pkg from "mongodb";
+const { MongoClient, ServerApiVersion } = pkg;
+const { ObjectID } = pkg;
 
 const dbUser = encodeURIComponent('Dan');
 const dbPassword = encodeURIComponent('XytrNdrKYjUAP7t7');
@@ -28,7 +32,7 @@ const client = new MongoClient(uri, {
     }
   });
 
-let myDb;
+export let myDb;
 
 app.get("/", (req, res) => {
     res.send("I love the universe!");
@@ -50,4 +54,3 @@ run().catch((error) => console.log(error));
 app.listen(port, () => {
     console.log(`Server running at http://localhost:${port}`);
 });
-
