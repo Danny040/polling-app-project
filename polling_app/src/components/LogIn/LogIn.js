@@ -13,12 +13,14 @@ import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import axios from 'axios';
 import { useState } from 'react';
+import { Navigate } from 'react-router-dom';
 
 const defaultTheme = createTheme();
 
 export default function LogIn() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [isUser, setIsUser] = useState('');
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -27,14 +29,20 @@ export default function LogIn() {
       password: password
     }
     try {
-      const response = await axios.post('http://localhost:4000/users', body);
+      const response = await axios.post('http://localhost:4000/auth/login', body);
       const responseData = response.data;
-      console.log(responseData); 
+      setIsUser(responseData.user);
     } catch (error) {
-      console.log(error)
+      console.log(error.message);
+
     }
-    // console.log(JSON.stringify(body));
   };
+
+  if (isUser === 'user') {
+    return <Navigate to='/user' />
+  } else if (isUser === 'admin') {
+    return <Navigate to='/admin' />
+  }
 
   return (
     <ThemeProvider theme={defaultTheme}>

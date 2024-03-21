@@ -36,20 +36,20 @@ router.post('/login', async (req, res) => {
   try {
     const {email, password} = req.body;
     let usersCol = myDb.collection("Users");
-    let adminCol = myDb.collection("Admin");
+    let adminCol = myDb.collection("Admins");
     let user = await usersCol.find({email: email}).toArray();
-
+    let whoLogIn = "user";
     if (user.length == 0) {
       user = await adminCol.find({email: email}).toArray();
+      whoLogIn = "admin";
       if (user.length == 0) return res.status(401).json({message: "This user doesn't exist."});
     } 
 
     if (password != user[0].password) {
-      return res.status(401).json({message: "Invalid credentials."});
+      return res.status(402).json({message: "Invalid credentials."});
     }
 
- 
-    res.status(201).json({message: user[0]._id});
+    res.status(201).json({message: user[0]._id, user: `${whoLogIn}`});
   } catch (error) {
     console.log(error);
     res.status(500).json({message: error.message});

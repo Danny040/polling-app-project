@@ -13,6 +13,7 @@ import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import axios from 'axios';
 import { useState } from 'react';
+import { Navigate } from 'react-router-dom';
 
 const defaultTheme = createTheme();
 
@@ -22,14 +23,32 @@ export default function SignUp() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [repeatPassword, setRepeatPassword] = useState('');
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    console.log(`email: ${email}\npassword: ${password}\nrepeatPassword: ${repeatPassword}`);
+    if (password !== repeatPassword) {
+      return alert("Passwords are different");
+    }
+    const body = {
+      email: email,
+      password: password,
+      polls: [],
+      verified: false
+    }
+    try {
+      const response = await axios.post("http://localhost:4000/auth/register", body);
+      const responseData = response.data;
+      setIsLoggedIn(true);
+    } catch (error) {
+      console.log(error);
+    }
     
   };
-
+  if (isLoggedIn) {
+    return <Navigate to='/login' />
+  }
   return (
     <ThemeProvider theme={defaultTheme}>
       <Container component="main" maxWidth="xs">
