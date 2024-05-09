@@ -1,9 +1,18 @@
 import express from "express";
-const app = express();
-import cors from "cors";
-const port = 4000; 
-
 import authRouts from './auth.mjs';
+import cors from "cors";
+import dotenv from 'dotenv';
+import pkg from "mongodb";
+import admin_f from './admin_f.mjs';
+
+
+const app = express();
+dotenv.config();
+
+const URI = process.env.ATLAS_URI;
+const port = process.env.PORT;
+
+
 
 let corsOptions = {
   origin: '*',
@@ -13,18 +22,14 @@ let corsOptions = {
 app.use(express.json());
 app.use(cors(corsOptions));
 app.use('/auth', authRouts);
+app.use('/adminf', admin_f);
 
-import pkg from "mongodb";
+
 const { MongoClient, ServerApiVersion } = pkg;
 const { ObjectID } = pkg;
 
-const dbUser = encodeURIComponent('Dan');
-const dbPassword = encodeURIComponent('XytrNdrKYjUAP7t7');
-const dbCluster = 'polling-app.zjsg7bf.mongodb.net';
 
-const uri = `mongodb+srv://${dbUser}:${dbPassword}@${dbCluster}/?retryWrites=true&w=majority`;
-
-const client = new MongoClient(uri, {
+const client = new MongoClient(URI, {
     serverApi: {
       version: ServerApiVersion.v1,
       strict: true,

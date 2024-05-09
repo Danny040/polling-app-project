@@ -20,7 +20,7 @@ const defaultTheme = createTheme();
 export default function LogIn() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [isUser, setIsUser] = useState('');
+  const [isUser, setIsUser] = useState({});
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -31,7 +31,7 @@ export default function LogIn() {
     try {
       const response = await axios.post('http://localhost:4000/auth/login', body);
       const responseData = response.data;
-      setIsUser(responseData.user);
+      setIsUser({id: responseData.message, userType: responseData.user});
     } catch (error) {
       console.log(error.message);
 

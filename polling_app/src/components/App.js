@@ -6,6 +6,7 @@ import NoPage from './NoPage/NoPage';
 import LogIn from './LogIn/LogIn';
 import SignUp from './SignUp/SignUp';
 import Home from './Home/Home';
+import PollingForm from './PollingForm/PollingForm';
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
           <Route path='/signup' element={<SignUp />} />
           <Route path='/admin' element={<Admin />} />
           <Route path='/user' element={<User />} />
+          <Route path='/createPoll' element={<PollingForm />} />
           <Route path='*' element={<NoPage />} />
         </Route>
       </Routes>
