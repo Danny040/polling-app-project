@@ -1,14 +1,13 @@
-import mongodb from "mongodb";
 import express from"express";
-import jwt from "jsonwebtoken";
-const router = express.Router();
 import { myDb } from "./app.mjs";
+
+const router = express.Router();
 
 router.post('/register', async (req, res) => {
     try {
       const {email, password} = req.body;
-      let usersCol = myDb.collection("Users");
-      let adminCol = myDb.collection("Admin")
+      let usersCol = await myDb.collection("Users");
+      let adminCol = await myDb.collection("Admin")
       // check if user already exists
       const existingUser1 = await usersCol.find({email: email}).toArray();
       const existingUser2 = await adminCol.find({email: email}).toArray();
@@ -20,11 +19,13 @@ router.post('/register', async (req, res) => {
         email: email,
         password: password,
         polls: [],
-        verified: false
+        verified: false,
+        emailToken: ""
       }
 
       const result = await usersCol.insertOne(newUser);
       res.status(200).json(result);
+      
       console.log(result.insertedId);
     } catch (err) {
       console.log(err);
@@ -35,8 +36,8 @@ router.post('/register', async (req, res) => {
 router.post('/login', async (req, res) => {
   try {
     const {email, password} = req.body;
-    let usersCol = myDb.collection("Users");
-    let adminCol = myDb.collection("Admins");
+    let usersCol = await myDb.collection("Users");
+    let adminCol = await myDb.collection("Admins");
     let user = await usersCol.find({email: email}).toArray();
     let whoLogIn = "user";
     if (user.length == 0) {
@@ -80,6 +81,16 @@ router.post('/login', async (req, res) => {
   //     res.status(500).json({message: error.message});
   //   }
   // });
+
+  // router.patch("/comment/:id", async (req, res) => {
+  //   const query = { _id: ObjectId(req.params.id) };
+  //   const updates = {
+  //     $push: { comments: req.body }
+  //   };
+  //   let collection = await db.collection("posts");
+  //   let result = await collection.updateOne(query, updates);
+  //   res.send(result).status(200);
+  // })
   
   // app.delete('/user/:id', async (req, res) => {
   //   try {
