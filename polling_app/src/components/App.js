@@ -7,6 +7,8 @@ import LogIn from './LogIn/LogIn';
 import SignUp from './SignUp/SignUp';
 import Home from './Home/Home';
 import PollingForm from './PollingForm/PollingForm';
+import Poll from './Poll/Poll';
+import DeleteUser from './DeleteUser/DeleteUser';
 
 function App() {
   return (
@@ -19,6 +21,8 @@ function App() {
           <Route path='/admin' element={<Admin />} />
           <Route path='/user' element={<User />} />
           <Route path='/createPoll' element={<PollingForm />} />
+          <Route path='/deleteUser' element={<DeleteUser />} />
+          <Route path='/Poll' element={<Poll />} />
           <Route path='*' element={<NoPage />} />
         </Route>
       </Routes>

@@ -8,7 +8,7 @@ import {Link} from 'react-router-dom';
 export default function Admin() {
     return (
     <Container component="main" maxWidth="xs">
-            <Box sx={{
+        <Box sx={{
             p: 2,
             flexGrow: 1,
             display: 'flex',
@@ -16,17 +16,12 @@ export default function Admin() {
             justifyContent: 'space-evenly',
             borderBottom: '1px solid #1A76D2'
           }}>
-            <Link>
+            <Link to='/deleteUser'>
                 <Button variant="outlined">Delete user</Button>
             </Link>
             <Link to='/createPoll'>
                 <Button variant="outlined">Create Poll</Button>
             </Link>
-                
-            </Box>
-        <CssBaseline />
-        <Box>
-
         </Box>
     </Container>
     );

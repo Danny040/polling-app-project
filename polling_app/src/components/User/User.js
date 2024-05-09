@@ -8,7 +8,7 @@ export default function User() {
 
     return (
         <Container component="main" maxWidth="xs">
-            <Box sx={{
+        <Box sx={{
             p: 2,
             flexGrow: 1,
             display: 'flex',
@@ -18,12 +18,7 @@ export default function User() {
           }}>
             <Link to='/createPoll'>
                 <Button variant="outlined">Create Poll</Button>
-            </Link>
-                
-            </Box>
-        <CssBaseline />
-        <Box>
-
+            </Link>   
         </Box>
     </Container>
     );
